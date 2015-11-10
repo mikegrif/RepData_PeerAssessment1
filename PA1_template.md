@@ -1,16 +1,27 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research - Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 
 ```r
 require(dplyr)
+```
 
+```
+## Loading required package: dplyr
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 act <- read.csv('activity.csv')
 summary(act)
 ```
@@ -38,7 +49,13 @@ aggdata <- act %>%
 
 # plot histogram of total steps per day
 require(ggplot2)
+```
 
+```
+## Loading required package: ggplot2
+```
+
+```r
 ggplot(aggdata) + 
         geom_histogram(aes(x=round(totalsteps)),binwidth=700) +
         ggtitle("Histogram of Total Steps per Day") +
