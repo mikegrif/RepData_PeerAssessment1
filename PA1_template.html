@@ -203,23 +203,9 @@ hr {
 <body>
 <h1>Reproducible Research - Peer Assessment 1</h1>
 
+<p>This assignment makes use of data from a personal activity monitoring device. The device collects data at 5 minutes intervals throughout the day. The data consists of two months of data from an anonymous individual collected during the months of October and November 2012 and include the number of steps taken in 5 minutes interval each day.</p>
+
 <h2>Loading and preprocessing the data</h2>
-
-<pre><code class="r">require(dplyr)
-</code></pre>
-
-<pre><code>## Loading required package: dplyr
-## 
-## Attaching package: &#39;dplyr&#39;
-## 
-## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag
-## 
-## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union
-</code></pre>
 
 <pre><code class="r">act &lt;- read.csv(&#39;activity.csv&#39;)
 summary(act)
@@ -236,6 +222,22 @@ summary(act)
 </code></pre>
 
 <h2>What is mean total number of steps taken per day?</h2>
+
+<pre><code class="r">require(dplyr)
+</code></pre>
+
+<pre><code>## Loading required package: dplyr
+## 
+## Attaching package: &#39;dplyr&#39;
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union
+</code></pre>
 
 <pre><code class="r"># compute total steps per day
 aggdata &lt;- act %&gt;% 
@@ -401,16 +403,16 @@ getDayType &lt;- function(x) {
     return(result)
 }
 
-# add new factor for date    
+# add new factor to dataset to indicate weekday vs. weekend   
 dayType &lt;- sapply(act2$date, getDayType)
 act2$dayType &lt;- dayType
 
-# find average steps per interval and weekday
+# find average steps per interval and type of day
 avg2 &lt;- act2 %&gt;% 
             group_by(interval,dayType) %&gt;% 
             summarise(avgsteps = mean(steps, na.rm=TRUE))
 
-# plot graph of steps vs. 5-minute interval
+# plot graph of average steps per 5-minute interval
 ggplot(avg2) + 
     geom_line(aes(x=interval,y=avgsteps)) +
     ggtitle(&quot;Average Steps per 5-minute Interval&quot;) +

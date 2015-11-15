@@ -1,25 +1,8 @@
-# Reproducible Research - Peer Assessment 1
+# Reproducible Research - Peer Assessment 1  
+This assignment makes use of data from a personal activity monitoring device. The device collects data at 5 minutes intervals throughout the day. The data consists of two months of data from an anonymous individual collected during the months of October and November 2012 and include the number of steps taken in 5 minutes interval each day.
 
 
 ## Loading and preprocessing the data
-
-```r
-require(dplyr)
-```
-
-```
-## Loading required package: dplyr
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
 
 ```r
 act <- read.csv('activity.csv')
@@ -39,6 +22,24 @@ summary(act)
 
 
 ## What is mean total number of steps taken per day?
+
+```r
+require(dplyr)
+```
+
+```
+## Loading required package: dplyr
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
 
 ```r
 # compute total steps per day
@@ -226,16 +227,16 @@ getDayType <- function(x) {
     return(result)
 }
 
-# add new factor for date    
+# add new factor to dataset to indicate weekday vs. weekend   
 dayType <- sapply(act2$date, getDayType)
 act2$dayType <- dayType
 
-# find average steps per interval and weekday
+# find average steps per interval and type of day
 avg2 <- act2 %>% 
             group_by(interval,dayType) %>% 
             summarise(avgsteps = mean(steps, na.rm=TRUE))
 
-# plot graph of steps vs. 5-minute interval
+# plot graph of average steps per 5-minute interval
 ggplot(avg2) + 
     geom_line(aes(x=interval,y=avgsteps)) +
     ggtitle("Average Steps per 5-minute Interval") +
